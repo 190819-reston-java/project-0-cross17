@@ -203,9 +203,6 @@ public class BankDAO implements BankDbDAO {
 				//check for a single
 				if(resultSet.next()) {
 					user = new UserInfo(
-//							resultSet.getInt("id"),
-//							resultSet.getString("user_name"),
-//							resultSet.getString("password"),
 							resultSet.getDouble("balance")
 							);
 				}

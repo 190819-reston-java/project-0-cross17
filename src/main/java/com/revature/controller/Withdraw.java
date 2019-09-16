@@ -29,7 +29,7 @@ public class Withdraw extends BalanceReturn {
 //	double b;
 	
 	public static void main(String[] args) {
-
+		deposit();
 	}
 	
 	protected static double withdrawl() {
@@ -113,12 +113,40 @@ public class Withdraw extends BalanceReturn {
 	}
 
 	protected static double deposit() {
-		BankDbDAO DAO = new BankDAO();
+		BankDbDAO b = new BankDAO();
+
+		ResultSet resultSet = null;
+		PreparedStatement stmt = null;
+		Connection conn = null;
+		UserInfo user;
 		
 		try {
 		System.out.print("How much would you like to deposit?: $");
 		double depositAmount = sc.nextDouble();
 		System.out.println("");
+		
+		
+		
+		String query = "UPDATE balance SET balance = ?;";
+		stmt = conn.prepareStatement(query);
+		stmt.setDouble(1, balance);
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -128,12 +156,13 @@ public class Withdraw extends BalanceReturn {
 		String correctAmount = sc.next();
 		switch (correctAmount.toLowerCase()) {
 		case "y":
-			if(depositAmount > balance) {
-				double postDeposit = balance + depositAmount; 
+			if(depositAmount > u.getBalance()) {
+				double postDeposit = u.getBalance() + depositAmount; 
 				
 				System.out.println("Thank you for the deposit! Your new balance is: " + mFormat.format(postDeposit) + ". Returning to main menu.");
 				balance = postDeposit;
 				l.info("Users new balance after deposit is " + mFormat.format(balance));
+				
 				mainMenu();
 			}else if (depositAmount < 0) {
 				throw new NegativeDepositAmount();
@@ -156,7 +185,7 @@ public class Withdraw extends BalanceReturn {
 //			//remove after unit testing to see if the deposit amount remains after returning to main menu
 //			mainMenu();
 //		}
-		}catch (InputMismatchException e) {
+		}catch (InputMismatchException | SQLException e) {
 			System.out.println("This input returns a: " + e + ". Please only input numbers. Logging out & exiting.");
 			
 		}
@@ -173,7 +202,7 @@ public class Withdraw extends BalanceReturn {
 		Connection conn = null;
 		UserInfo user;
 		
-		String query = "SELECT * FROM bankdatabase;";;
+		String query = "SELECT * FROM bankdatabase;";
 		
 		try {
 		
@@ -187,17 +216,15 @@ public class Withdraw extends BalanceReturn {
 			
 			if(resultSet.next()) {
 				user = new UserInfo (
-						resultSet.getInt("id"),
-						resultSet.getString("user_name"),
-						resultSet.getString("password"),
 						resultSet.getDouble("balance")
 						);
 			}
 			System.out.println(b.getBalance());
+			System.out.println("");
 		}
 		
-		System.out.println("");
 		System.out.println("Would you like to exit or go back to the main menu? Press 'e' to exit or 'm' for menu.");
+		System.out.println("");
 		
 	String exitOrMenu = sc.next();
 		
