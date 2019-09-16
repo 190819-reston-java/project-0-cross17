@@ -3,10 +3,21 @@
 
 package com.revature.controller;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 
 import com.revature.exception.InsufficientFundsException;
 import com.revature.exception.NegativeDepositAmount;
+import com.revature.model.UserInfo;
+import com.revature.repository.BankDAO;
+import com.revature.repository.BankDbDAO;
+//import com.revature.repository.BankDAO;
+//import com.revature.repository.BankDbDAO;
+import com.revature.utils.Close;
+import com.revature.utils.ConnectionUtil;
 
 //import java.text.NumberFormat;
 //import java.util.InputMismatchException;
@@ -15,10 +26,10 @@ import com.revature.exception.NegativeDepositAmount;
 public class Withdraw extends BalanceReturn {
 	
 	static double balance;
-	double b;
+//	double b;
 	
 	public static void main(String[] args) {
-			deposit();
+
 	}
 	
 	protected static double withdrawl() {
@@ -47,7 +58,34 @@ public class Withdraw extends BalanceReturn {
 				mainMenu();
 				
 			}else {
-			double postWithdrawl = balance - withdrawlAmount; 
+				
+				try {
+					Connection conn = null;
+					PreparedStatement stmt = null;
+					
+					String query = "UPDATE bankdatabase (balance) SET balance = ;";
+					
+					conn = ConnectionUtil.getConnection();
+					stmt = conn.prepareStatement(query);
+//					stmt.set
+					
+				}catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				
+				
+				
+				
+				
+			double postWithdrawl = balance - withdrawlAmount;
+			
+			
+			
+			
+			
+			
+			
 			
 			System.out.println("Your new balance is: " + mFormat.format(postWithdrawl));
 			balance = postWithdrawl;
@@ -75,6 +113,7 @@ public class Withdraw extends BalanceReturn {
 	}
 
 	protected static double deposit() {
+		BankDbDAO DAO = new BankDAO();
 		
 		try {
 		System.out.print("How much would you like to deposit?: $");
@@ -127,8 +166,36 @@ public class Withdraw extends BalanceReturn {
 	}
 
 	protected static double balance() {
+		BankDbDAO b = new BankDAO();
+
+		ResultSet resultSet = null;
+		PreparedStatement stmt = null;
+		Connection conn = null;
+		UserInfo user;
 		
-		System.out.println("Your balance is: " + mFormat.format(balance) + ".");
+		String query = "SELECT * FROM bankdatabase;";;
+		
+		try {
+		
+		conn = ConnectionUtil.getConnection();
+		stmt = conn.prepareStatement(query);
+		stmt.getResultSet();
+		
+		if(stmt.execute()) {
+			
+			resultSet = stmt.getResultSet();
+			
+			if(resultSet.next()) {
+				user = new UserInfo (
+						resultSet.getInt("id"),
+						resultSet.getString("user_name"),
+						resultSet.getString("password"),
+						resultSet.getDouble("balance")
+						);
+			}
+			System.out.println(b.getBalance());
+		}
+		
 		System.out.println("");
 		System.out.println("Would you like to exit or go back to the main menu? Press 'e' to exit or 'm' for menu.");
 		
@@ -148,8 +215,16 @@ public class Withdraw extends BalanceReturn {
 			System.out.println("Invalid input. Returning to menu. Thank you for your patronage!");
 			mainMenu();
 		}
+		
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Close.close(resultSet);
+			Close.close(stmt);
+		}
 	
-		return 0;
+		return balance;
+		
 	}
 
 }

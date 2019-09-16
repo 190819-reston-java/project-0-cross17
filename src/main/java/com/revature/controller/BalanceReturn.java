@@ -9,21 +9,30 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
+import com.revature.repository.BankDAO;
+import com.revature.repository.BankDbDAO;
+import com.revature.model.UserInfo;
+
 public class BalanceReturn {
 	
 	protected static Scanner sc = new Scanner(System.in);
 	
-	static NumberFormat mFormat = NumberFormat.getCurrencyInstance();
+	protected static NumberFormat mFormat = NumberFormat.getCurrencyInstance();
 	
 //	static double userBalance;
 	
 	public static Logger l = Logger.getLogger(BalanceReturn.class);
 	
+	static UserInfo u = new UserInfo(0, null, null, 0);
+	
 //	balance = 
 	
 	public static void main (String[] args) {
 		LoginScreen.firstScreen();
-//		mainMenu();
+//		BankDbDAO b = new BankDAO();
+//		
+//		System.out.println(b.getBalance());
+
 	}
 	
 	protected static void mainMenu() {
@@ -57,9 +66,9 @@ public class BalanceReturn {
 			l.info("User logged off.");
 			System.exit(0);
 			break;
-		case "c":
-			NewUser.newUser();
-			break;
+//		case "c":
+//			NewUser.newUser();
+//			break;
 		default:
 			System.out.println("Invalid input. Exiting ATM. Thank you for your patronage!");
 		}

@@ -15,14 +15,14 @@ public abstract class UserInfo {
 		this.password = password;
 		this.balance = balance;
 	}
-	
-	public UserInfo(String username, String password) {
-		this(username, password, 0);
-	}
-	
-	public UserInfo(String username) {
-		this(username, "Account creation incomplete. Please enter a password");
-	}
+//	
+//	public UserInfo(String username, String password) {
+//		this(username, password, 0);
+//	}
+//	
+//	public UserInfo(String username) {
+//		this(username, "Account creation incomplete. Please enter a password");
+//	}
 
 
 
