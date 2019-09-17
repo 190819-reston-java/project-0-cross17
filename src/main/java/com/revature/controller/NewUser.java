@@ -5,6 +5,7 @@ import java.util.Scanner;
 import org.apache.log4j.Logger;
 
 import com.revature.model.UserInfo;
+import com.revature.model.Username;
 import com.revature.repository.BankDAO;
 import com.revature.repository.BankDbDAO;
 
@@ -14,7 +15,7 @@ public class NewUser extends BalanceReturn{
 	
 	static String username;
 	String password;
-	double balance;
+//	double balance;
 	static String dbName;
 	static String dbPass;
 	static double dbBalance;
@@ -35,69 +36,60 @@ public class NewUser extends BalanceReturn{
 	}
 	
 	
-	public static String newUser() {
+	public static double newUser() {
+		BankDbDAO DAO = new BankDAO();
+		UserInfo u = new UserInfo();
+		
 		
 		System.out.println("Thank you for choosing to bank with us!");
 		System.out.print("Please enter the username you would like associated with this account: ");
 		String username = sc.next();
+		u.setUsername(username);
+		System.out.println(u.getUsername());
 		
 		System.out.println("");
 		
-		//remove after database working
-//		System.out.println(username);
-		
-//		BankDbDAO DAO = new BankDAO();
-//		
-//		DAO.addUser(new UserInfo(0, username, "?", 0));
-//		
-//		newUserPassword();
-//		
-//		return null;
-//	}
-//	
-//	public static String newUserPassword() {
 		System.out.print("Please enter the password you would like associated with this account: ");
 		String password = sc.next();
+		u.setPassword(password);
+		
 		
 		System.out.println("");
 		
-		//remove after database working
-//		System.out.println(password);
-		
-		//userInfo.add(password);
-		
-//		BankDbDAO DAO = new BankDAO();
-//		
-//		DAO.addPassword(new UserInfo(0, "", password, 0));
-//		
-//		newUserBalance();
-//
-//		return null;
-//	}
-//	
-//	public static double newUserBalance() {
 		System.out.print("Enter initial deposit amount (must be above $100): ");
 		Double balance = sc.nextDouble();
-		//balance = mFormat.format(balance);
-		
-		//remove after database working
+
 		System.out.println("The balance for this new account will be " + mFormat.format(balance) + ".");
+		u.setBalance(balance);
 		
-		//userInfo.add(mFormat.format(balance));
 		
 		System.out.println("");
 		System.out.println("One moment please.");
 		System.out.println("");
 		
-		BankDbDAO DAO = new BankDAO();
-		
-//		DAO.addUser(new UserInfo(0, username, password, balance));
 		if (DAO.addUser(new UserInfo(0, username, password, balance))) {
 		l.info("Account successfully created!");
 		
+		UserInfo wUser = new UserInfo();
+		wUser.setUsername(username);
+		wUser.setPassword(password);
+		wUser.setBalance(balance);
+		
+		
+		
+		
+		
 		BalanceReturn.mainMenu();
 		}
-		return null;
+		return balance;
+	}
+	
+	public void setNewUser(double balance) {
+		
+		double newUser;
+		newUser = balance;
+		System.out.println(balance);
+		
 	}
 
 

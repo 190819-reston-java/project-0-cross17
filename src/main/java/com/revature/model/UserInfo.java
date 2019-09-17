@@ -7,9 +7,7 @@ public class UserInfo {
 	int id;
 	String username;
 	String password;
-	double balance;
-	
-	static NumberFormat mFormat = NumberFormat.getCurrencyInstance();
+	static double balance;
 	
 	
 	
@@ -21,16 +19,47 @@ public class UserInfo {
 		this.balance = balance;		
 	}
 	
-	public UserInfo (int id, double balance) {
+	public UserInfo(String username, String password, double balance) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.balance = balance;		
+	}
+	
+	public UserInfo(String username, String password) {
+		super();
+		this.username = username;
+		this.password = password;	
+	}
+	
+	public UserInfo(String username, double balance) {
+		super();
+		this.username = username;
+		this.balance = balance;		
+	}
+	
+	public UserInfo() {
 		super();
 		this.id = id;
-		this.balance = balance;
+		this.username = username;
+		this.password = password;
+		this.balance = balance;		
 	}
 	
 	public UserInfo(double balance) {
 		super();
-		this.balance = balance;
+		this.username = username;
+		this.balance = balance;		
 	}
+	
+	public UserInfo(int balance) {
+		super();
+		this.username = username;
+		this.balance = balance;		
+	}
+	
+	
+	
 
 	public int getId() {
 		return id;
@@ -50,17 +79,30 @@ public class UserInfo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public double getBalance() {
+	public static double getBalance() {
 		return balance;
 	}
-	public void setBalance(int balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 	}
-	
+
+
+
+
 	@Override
 	public String toString() {
-		return "Your balance is: " + mFormat.format(balance) + ".";
+		return "UserInfo [id=" + id + ", username=" + username + ", password=" + password + ", balance=" + balance
+				+ "]";
 	}
+	
+	
+	
+//	@Override
+//	public String toString() {
+//		return "Your balance is: " + mFormat.format(balance) + ".";
+//	}
+	
+	
 	
 	
 	

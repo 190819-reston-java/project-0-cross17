@@ -48,38 +48,40 @@ public class LoginScreen extends BalanceReturn {
 	public static void login() {
 		BankDbDAO DAO = new BankDAO();
 		
-		//List<String> usernameList = new ArrayList<String>();
-		//probably an interface
-//		List<String> usernameList = new ArrayList<String>();
-		
 		
 		System.out.println("Please enter username in line below: ");
 		String username = sc.next();
 		System.out.println("");
 		
-		//write a for loop to loop through database to find username. Then have it loop through to find password. If they are both associated with the same id number login*
-		//write a sysout for incorrect username*
-		//add switch statement to exit program 
 		
 		
 		for(UserInfo u : DAO.getUsersInfo()) {
 			
 			if (u.getUsername().equals(username)) {
 				System.out.println("");
+				u.setUsername(username);
+				
+				
 				System.out.println("Please enter password below: ");
 				String password = sc.next();
 				System.out.println("");
 				
 				for (UserInfo i : DAO.getUsersInfo()) {
-					if (i.getPassword().equals(password)) {
+					System.out.println("");
+					if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
+						System.out.println("Your current balance is " + mFormat.format(u.getBalance()));
 						mainMenu();
+						
+//						System.out.println(s);
+						
+						
 					}
 					
 				}
 			} 
 			
 		}
-		
+//		System.out.println(s);
 	}
 
 }

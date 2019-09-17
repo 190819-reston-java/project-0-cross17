@@ -23,19 +23,16 @@ public class BalanceReturn {
 	
 	public static Logger l = Logger.getLogger(BalanceReturn.class);
 	
-	static UserInfo u = new UserInfo(0, null, null, 0);
-	
 //	balance = 
 	
 	public static void main (String[] args) {
 		LoginScreen.firstScreen();
-//		BankDbDAO b = new BankDAO();
-//		
-//		System.out.println(b.getBalance());
-
 	}
-	
 	protected static void mainMenu() {
+		BankDbDAO DAO = new BankDAO();
+		String username;
+		String password;
+		double balance;
 	//move balance amount to own class and start menu with deposit/withdraw/check balance options
 	//update menu
 	//add Login option
@@ -44,14 +41,14 @@ public class BalanceReturn {
 		System.out.println("Welcome to the virtual ATM!");
 		System.out.println("");
 		System.out.println("Would you like to make a deposit or a withdrawl? Press '1' for withdrawl, '2' for deposit, or '3' to view balance; then please press 'Enter'.");
-		System.out.println("Press 'c' to create a new account, or 'e' to logout & exit application.");
+		System.out.println("Press 'e' to logout & exit application.");
 		
-		String depositWithdrawl = sc.next();
+		String depositWithdrawal = sc.next();
 		
-		switch(depositWithdrawl.toLowerCase()) {
+		switch(depositWithdrawal.toLowerCase()) {
 		case "1":
 			//System.out.println("This is a withdrawl");
-			Withdraw.withdrawl();
+			Withdraw.withdrawal();
 			break;
 		case "2":
 			//System.out.println("This is a deposit");

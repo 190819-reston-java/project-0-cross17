@@ -8,12 +8,10 @@ public interface BankDbDAO {
 	
 	UserInfo getUserInfo(int id);
 	UserInfo getUserInfo(String username);
-//	UserInfo getUserInfo(String password);
-	UserInfo getBalance();
+	boolean updateBalance(UserInfo u);
+	UserInfo getBalance(String username);
 	List<UserInfo> getUsersInfo();
 	boolean addUser(UserInfo u);
 	boolean addPassword(UserInfo u);
-	boolean Balance(UserInfo u);
-//	boolean login(UserInfo u);
 
 }

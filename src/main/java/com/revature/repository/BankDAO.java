@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.controller.NewUser;
-//import com.revature.model.Player;
 import com.revature.model.UserInfo;
 import com.revature.utils.Close;
 import com.revature.utils.ConnectionUtil;
@@ -32,12 +31,16 @@ public class BankDAO implements BankDbDAO {
 						}
 					}
 				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		}catch(SQLException e) {
-			e.printStackTrace();
+			return user;
+			}catch(SQLException e) {
+				e.printStackTrace();
+			
+			return user;
+			}
 		}
-		return user;
-	}
 
 	private UserInfo createUserFromRS(ResultSet rs) throws SQLException {
 		return new UserInfo(
@@ -50,17 +53,42 @@ public class BankDAO implements BankDbDAO {
 
 	@Override
 	public UserInfo getUserInfo(String username) {
-		ResultSet rs = null;
-		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		
+		PreparedStatement statement = null;
 		
 		UserInfo user = null;
 		
-		try(Connection conn = ConnectionUtil.getConnection()) {
-			stmt = conn.prepareStatement("SELECT * FROM p0db;");
-		}catch(SQLException e) {
+		
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			statement = conn.prepareStatement(
+					"SELECT * FROM bankdatabase;");
+			
+			
+			
+			statement.setString(1, username);
+			
+			if(statement.execute()) {
+				
+				resultSet = statement.getResultSet();
+				
+				if(resultSet.next()) {
+					user = new UserInfo(
+							resultSet.getInt("id"),
+							resultSet.getString("user_name"),
+							resultSet.getString("password"),
+							resultSet.getDouble("balance")
+							);
+				}
+			}
+			
+		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			Close.close(resultSet);
+			Close.close(statement);
 		}
-		return null;
+		return user;
 	}
 
 	@Override
@@ -70,22 +98,18 @@ public class BankDAO implements BankDbDAO {
 		ResultSet resultSet = null;
 		Connection conn = null;
 		
-		//list to return
+		
 		List<UserInfo> users = new ArrayList<UserInfo>();
 		
 		try {
 			conn = ConnectionUtil.getConnection();
 			
-			
-//			String query = "SELECT * FROM bankdatabase;";
-			
 			stmt = conn.createStatement();
 			
 			resultSet = stmt.executeQuery("SELECT * FROM bankdatabase;");
-//			resultSet = stmt.executeQuery();
 			
 			while (resultSet.next()) {
-				//At each row in the ResultSet, do the following:
+				
 				users.add(new UserInfo(
 						resultSet.getInt("id"),
 						resultSet.getString("user_name"),
@@ -111,7 +135,7 @@ public class BankDAO implements BankDbDAO {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		
-		final String query = "INSERT INTO bankdatabase (id, user_name, password, balance) VALUES (DEFAULT, ?, ?, ?);";
+		final String query = "INSERT INTO bankdatabase VALUES (DEFAULT, ?, ?, ?);";
 		
 		try {
 			conn = ConnectionUtil.getConnection();
@@ -124,7 +148,7 @@ public class BankDAO implements BankDbDAO {
 			e.printStackTrace();
 			return false;
 		}finally {
-//			Close.close(stmt);
+			Close.close(stmt);
 			Close.close(conn);
 		}
 		
@@ -162,30 +186,33 @@ public class BankDAO implements BankDbDAO {
 
 	
 	@Override
-	public boolean Balance(UserInfo u) {
+	public boolean updateBalance(UserInfo u) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		
-		String query = "UPDATE bankdatabase (balance) SET balance = ?;";
+		final String query = "UPDATE bankdatabase SET user_name = ?, password = ?, balance = ?;";
 		
 		try {
-			
-		conn = ConnectionUtil.getConnection();
-		stmt = conn.prepareStatement(query);
-		stmt.setDouble(1, u.getBalance());
-		stmt.execute();
-		
-		
-		}catch(SQLException e) {
+			conn = ConnectionUtil.getConnection();
+			stmt = conn.prepareStatement(query);
+			stmt.setString(1, u.getUsername());
+			stmt.setString(3, u.getPassword());
+			stmt.setDouble(4,  u.getBalance());
+			stmt.setLong(5, u.getId());
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		} finally {
+			Close.close(stmt);
+			Close.close(conn);
 		}
 		return true;
 	}
+		
 	
 	
 	@Override
-	public UserInfo getBalance() {
+	public UserInfo getBalance(String username) {
 		ResultSet resultSet = null;
 		
 		PreparedStatement stmt = null;
@@ -194,7 +221,9 @@ public class BankDAO implements BankDbDAO {
 		
 		
 		try (Connection conn = ConnectionUtil.getConnection()) {
-			stmt = conn.prepareStatement("SELECT balance FROM bankdatabase;");
+			stmt = conn.prepareStatement("SELECT * FROM bankdatabase WHERE username = ?;");
+			
+			stmt.setString(1, username);
 			
 			//try to execute SQL query
 			if(stmt.execute()) {
@@ -203,6 +232,9 @@ public class BankDAO implements BankDbDAO {
 				//check for a single
 				if(resultSet.next()) {
 					user = new UserInfo(
+							resultSet.getInt("id"),
+							resultSet.getString("username"),
+							resultSet.getString("password"),
 							resultSet.getDouble("balance")
 							);
 				}
@@ -215,7 +247,6 @@ public class BankDAO implements BankDbDAO {
 			Close.close(stmt);
 		}
 		return user;
-	}
-	
+	}	
 	
 }
