@@ -27,12 +27,14 @@ public class BalanceReturn {
 	
 	public static void main (String[] args) {
 		LoginScreen.firstScreen();
+		
 	}
+//		static String username = LoginScreen.retrieveUsername();
 	protected static void mainMenu() {
 		BankDbDAO DAO = new BankDAO();
-		String username;
 		String password;
 		double balance;
+		
 	//move balance amount to own class and start menu with deposit/withdraw/check balance options
 	//update menu
 	//add Login option

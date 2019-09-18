@@ -186,19 +186,21 @@ public class BankDAO implements BankDbDAO {
 
 	
 	@Override
-	public boolean updateBalance(UserInfo u) {
+	public boolean updateBalance(UserInfo i) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		
-		final String query = "UPDATE bankdatabase SET user_name = ?, password = ?, balance = ?;";
+		final String query = "UPDATE bankdatabase SET user_name = ?, password = ?, balance = ? WHERE id = ?;";
+//		final String query = "UPDATE bankdatabase SET balance = ?;";
 		
 		try {
 			conn = ConnectionUtil.getConnection();
 			stmt = conn.prepareStatement(query);
-			stmt.setString(1, u.getUsername());
-			stmt.setString(3, u.getPassword());
-			stmt.setDouble(4,  u.getBalance());
-			stmt.setLong(5, u.getId());
+			stmt.setString(1, i.getUsername());
+			stmt.setString(2, i.getPassword());
+			stmt.setDouble(3,  i.getBalance());
+			stmt.setInt(4, i.getId());
+			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -221,7 +223,7 @@ public class BankDAO implements BankDbDAO {
 		
 		
 		try (Connection conn = ConnectionUtil.getConnection()) {
-			stmt = conn.prepareStatement("SELECT * FROM bankdatabase WHERE username = ?;");
+			stmt = conn.prepareStatement("SELECT * FROM bankdatabase WHERE user_name = ?;");
 			
 			stmt.setString(1, username);
 			
@@ -231,7 +233,7 @@ public class BankDAO implements BankDbDAO {
 				resultSet = stmt.getResultSet();
 				//check for a single
 				if(resultSet.next()) {
-					user = new UserInfo(
+					return user = new UserInfo(
 							resultSet.getInt("id"),
 							resultSet.getString("username"),
 							resultSet.getString("password"),
@@ -247,6 +249,14 @@ public class BankDAO implements BankDbDAO {
 			Close.close(stmt);
 		}
 		return user;
-	}	
+	}
+
+	@Override
+	public boolean updateBalance(int i, String username, String password, double balance) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
 	
 }

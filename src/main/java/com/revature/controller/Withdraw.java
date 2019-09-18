@@ -29,9 +29,7 @@ public class Withdraw extends BalanceReturn {
 	static double balance;
 	static String username;
 	static String password;
-//	String wUser;
 	
-//	UserInfo i = new UserInfo();
 	
 	
 //	public static void main(String[] args) {
@@ -39,65 +37,59 @@ public class Withdraw extends BalanceReturn {
 //	}
 	
 	protected static double withdrawal() {
+		UserInfo u = new UserInfo();
+		BankDbDAO b = new BankDAO(); 
+		double s;	
 		
-		BankDbDAO DAO = new BankDAO();
-		UserInfo u = new UserInfo(0, null, null, 0);
+		s = u.getBalance();
 		
 		try {
 		System.out.print("Please enter a valid withdrawl amount: $");
-		double withdrawlAmount = sc.nextDouble();
+		double withdrawalAmount = sc.nextDouble();
 		System.out.println("");
 		
-		System.out.println("You entered: " + mFormat.format(withdrawlAmount) + " is this correct?");
+		System.out.println("You entered: " + mFormat.format(withdrawalAmount) + " is this correct?");
 		System.out.println("Press 'y' to verify or 'n' to deny.");
-		
 		String correctAmount = sc.next();
+		System.out.println("");
+		
 		switch (correctAmount.toLowerCase()) {
 		case "y":
-			if(withdrawlAmount > u.getBalance()) {
-//				System.out.println("Unfortunately this would leave a negative balance. This action is not possible. Returning to main menu.");
-//				System.out.println("");
+			if(withdrawalAmount > s) {
+				System.out.println("Unfortunately this would leave a negative balance. This action is not possible. Returning to main menu.");
+				System.out.println("");
 				
 				throw new InsufficientFundsException();
-			}else if(withdrawlAmount < 0) {
+			}else if(withdrawalAmount < 0) {
 				System.out.println("Cannot input negative numbers. Returning to main menu");
 				mainMenu();
 				
 			}else {
+				double postWithdrawal = s - withdrawalAmount;
+				balance = postWithdrawal;
 				
-				try {
-					Connection conn = null;
-					PreparedStatement stmt = null;
-					
-					String query = "UPDATE bankdatabase (balance) SET balance = ;";
-					
-					conn = ConnectionUtil.getConnection();
-					stmt = conn.prepareStatement(query);
-					u.getBalance();
+				System.out.println("Your new balance is " + mFormat.format(balance));
+				u.setBalance(balance);
 				
-				}catch (SQLException e) {
-					e.printStackTrace();
+//				u.getBalance();
+//				b.updateBalance(u);
+//				System.out.println(u);
+				
+				for(UserInfo i : b.getUsersInfo()) {
+//					if (i.getUsername().equals(username)) {
+////						u.setUsername(username);
+//						i.setBalance(balance);
+//						b.updateBalance(i);
+//						
+//						System.out.println(u);
+//					}
+//					System.out.println(i);
+					i.setBalance(balance);
+//					i.getBalance();
+					b.updateBalance(i);
 				}
-				
-				
-				
-				
-				
-				
-//			double postWithdrawl = balance - withdrawlAmount;
-//			
-//			
-//			
-//			
-//			
-//			
-//			
-//			
-//			System.out.println("Your new balance is: " + mFormat.format(postWithdrawl));
-//			balance = postWithdrawl;
-//			
-//			l.info("Users new balance after withdrawal is " + mFormat.format(balance));
-			//remove or add if statement to exit or menu
+//				System.out.println(u);
+
 			mainMenu();
 			}
 			break;
@@ -105,21 +97,20 @@ public class Withdraw extends BalanceReturn {
 			withdrawal();
 			break;
 		}
-			//add switch statement that if correct exits back to main menu *
-			//add code that removes withdrawl from balance *
-		
-//		this is where the if statement was originally
 		
 		}catch (InputMismatchException e) {
 			System.out.println("This input returns a: " + e + ". Please only input numbers. Logging out & exiting.");
-//			System.exit(0);
+			System.exit(0);
 			}
 		
 		return 0;
 	}
 
 	protected static double deposit() {
-//		BankDbDAO b = new BankDAO();
+		double s;
+		UserInfo u = new UserInfo();
+		
+		s = u.getBalance();
 		
 		try {
 		System.out.print("How much would you like to deposit?: $");
@@ -128,29 +119,35 @@ public class Withdraw extends BalanceReturn {
 		
 		System.out.println("You entered: " + mFormat.format(depositAmount) + " is this correct?");
 		System.out.println("Press 'y' to verify or 'n' to deny.");
-		
 		String correctAmount = sc.next();
-//		switch (correctAmount.toLowerCase()) {
-//		case "y":
-//			
-//			
-//			if(depositAmount > balance()) {
-//				double postDeposit = balance + depositAmount; 
-//				
-//				System.out.println("Thank you for the deposit! Your new balance is: " + mFormat.format(postDeposit) + ". Returning to main menu.");
-//				balance = postDeposit;
-//				l.info("Users new balance after deposit is " + mFormat.format(balance));
-//				mainMenu();
-//			}else if (depositAmount < 0) {
-//				throw new NegativeDepositAmount();
-//			}else {
-//				mainMenu();
-//			}
-//			break;
-//		case "n":
-//			deposit();
-//			break;
-//		}
+		System.out.println("");
+		
+		
+		switch (correctAmount.toLowerCase()) {
+		case "y":
+			if(depositAmount > 0) {
+				double postDeposit = s + depositAmount; 
+				
+				System.out.println("Thank you for the deposit! Your new balance is: " + mFormat.format(postDeposit) + ". Returning to main menu.");
+				balance = postDeposit;
+				System.out.println("");
+				
+				l.info("Users new balance after deposit is " + mFormat.format(balance));
+				u.setBalance(balance);
+				
+				mainMenu();
+				
+			}else if (depositAmount < 0) {
+				throw new NegativeDepositAmount();
+			}else {
+				System.out.println("Invalid input. Returning to main menu");
+				mainMenu();
+			}
+			break;
+		case "n":
+			deposit();
+			break;
+		}
 		
 		
 //		if(depositAmount < 0) {
@@ -172,16 +169,16 @@ public class Withdraw extends BalanceReturn {
 	}
 
 	protected static void balance() {
-		BankDbDAO DAO = new BankDAO();
-		Object wUser = new UserInfo();
+//		BankDbDAO DAO = new BankDAO();
+		UserInfo u = new UserInfo();
 		double s;
-		
-		
-		
-		s = UserInfo.getBalance();
+//		
+//		
+//		
+		s = u.getBalance();
 			
 		
-		System.out.println(mFormat.format(s));
+		System.out.println("Your balance is " + mFormat.format(s) + ".");
 		
 		System.out.println("Would you like to exit or go back to the main menu? Press 'e' to exit or 'm' for menu.");
 		System.out.println("");

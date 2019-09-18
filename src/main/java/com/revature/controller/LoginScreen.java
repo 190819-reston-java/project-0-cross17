@@ -10,9 +10,9 @@ import com.revature.model.UserInfo;
 
 public class LoginScreen extends BalanceReturn {
 	
-	public static void main (String [] args) {
-		login();
-	}
+//	public static void main (String [] args) {
+//		login();
+//	}
 
 	
 	public static void firstScreen() {
@@ -52,7 +52,7 @@ public class LoginScreen extends BalanceReturn {
 		System.out.println("Please enter username in line below: ");
 		String username = sc.next();
 		System.out.println("");
-		
+//		thisUsername = username;
 		
 		
 		for(UserInfo u : DAO.getUsersInfo()) {
@@ -69,7 +69,7 @@ public class LoginScreen extends BalanceReturn {
 				for (UserInfo i : DAO.getUsersInfo()) {
 					System.out.println("");
 					if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
-						System.out.println("Your current balance is " + mFormat.format(u.getBalance()));
+//						System.out.println("Your current balance is " + mFormat.format(u.getBalance()));
 						mainMenu();
 						
 //						System.out.println(s);
@@ -83,5 +83,14 @@ public class LoginScreen extends BalanceReturn {
 		}
 //		System.out.println(s);
 	}
+
+
+//	public static String retrieveUsername() {
+//		thisUsername = username;
+//		// TODO Auto-generated method stub
+//		return thisUsername;
+//	}
+	
+	
 
 }

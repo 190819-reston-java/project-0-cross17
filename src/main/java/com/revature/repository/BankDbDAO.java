@@ -13,5 +13,5 @@ public interface BankDbDAO {
 	List<UserInfo> getUsersInfo();
 	boolean addUser(UserInfo u);
 	boolean addPassword(UserInfo u);
-
+	boolean updateBalance(int i, String username, String password, double balance);
 }

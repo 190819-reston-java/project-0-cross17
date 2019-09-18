@@ -79,7 +79,7 @@ public class UserInfo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public static double getBalance() {
+	public double getBalance() {
 		return balance;
 	}
 	public void setBalance(double balance) {

@@ -84,13 +84,13 @@ public class NewUser extends BalanceReturn{
 		return balance;
 	}
 	
-	public void setNewUser(double balance) {
-		
-		double newUser;
-		newUser = balance;
-		System.out.println(balance);
-		
-	}
+//	public void setNewUser(double balance) {
+//		
+//		double newUser;
+//		newUser = balance;
+//		System.out.println(balance);
+//		
+//	}
 
 
 }
