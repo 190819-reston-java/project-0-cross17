@@ -1,12 +1,5 @@
-//CHANGE CLASS NAME TO depositWithdrawBalanceMenu & make applicable changes to BalanceReturn
-
-
 package com.revature.controller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.InputMismatchException;
 
 import com.revature.exception.InsufficientFundsException;
@@ -14,14 +7,6 @@ import com.revature.exception.NegativeDepositAmount;
 import com.revature.model.UserInfo;
 import com.revature.repository.BankDAO;
 import com.revature.repository.BankDbDAO;
-//import com.revature.repository.BankDAO;
-//import com.revature.repository.BankDbDAO;
-import com.revature.utils.Close;
-import com.revature.utils.ConnectionUtil;
-
-//import java.text.NumberFormat;
-//import java.util.InputMismatchException;
-//import java.util.Scanner;
 
 public class Withdraw extends BalanceReturn {
 	
@@ -32,9 +17,7 @@ public class Withdraw extends BalanceReturn {
 	
 	
 	
-//	public static void main(String[] args) {
-//		balance();
-//	}
+
 	
 	protected static double withdrawal() {
 		UserInfo u = new UserInfo();
@@ -44,7 +27,7 @@ public class Withdraw extends BalanceReturn {
 		s = u.getBalance();
 		
 		try {
-		System.out.print("Please enter a valid withdrawl amount: $");
+		System.out.print("Please enter a valid withdrawal amount: $");
 		double withdrawalAmount = sc.nextDouble();
 		System.out.println("");
 		
@@ -59,6 +42,7 @@ public class Withdraw extends BalanceReturn {
 				System.out.println("Unfortunately this would leave a negative balance. This action is not possible.");
 				System.out.println("");
 				
+				l.error("User Cause a 'InsufficientFundsException'.");
 				throw new InsufficientFundsException();
 			}else if(withdrawalAmount < 0) {
 				System.out.println("Cannot input negative numbers. Returning to main menu");
@@ -95,6 +79,7 @@ public class Withdraw extends BalanceReturn {
 	protected static double deposit() {
 		double s;
 		UserInfo u = new UserInfo();
+		BankDbDAO b = new BankDAO(); 
 		
 		s = u.getBalance();
 		
@@ -121,9 +106,15 @@ public class Withdraw extends BalanceReturn {
 				l.info("Users new balance after deposit is " + mFormat.format(balance));
 				u.setBalance(balance);
 				
+				for(UserInfo i : b.getUsersInfo()) {
+					i.setBalance(balance);
+					b.updateBalance(i);
+				}
+				
 				mainMenu();
 				
 			}else if (depositAmount < 0) {
+				l.error("User Caused a 'NegativeDepositAmount' exception");
 				throw new NegativeDepositAmount();
 			}else {
 				System.out.println("Invalid input. Returning to main menu");
@@ -135,16 +126,6 @@ public class Withdraw extends BalanceReturn {
 			break;
 		}
 		
-		
-//		if(depositAmount < 0) {
-////			System.out.println("Inputting a negative number no longer makes this a deposit. Please try again.");
-//			throw new NegativeDepositAmount();
-//		}else {
-//			System.out.println("Thank you for the deposit! Your new balance is: " + mFormat.format(postDeposit));
-//			balance = postDeposit;
-//			//remove after unit testing to see if the deposit amount remains after returning to main menu
-//			mainMenu();
-//		}
 		}catch (InputMismatchException e) {
 			System.out.println("This input returns a: " + e + ". Please only input numbers. Logging out & exiting.");
 			
@@ -155,12 +136,10 @@ public class Withdraw extends BalanceReturn {
 	}
 
 	protected static void balance() {
-//		BankDbDAO DAO = new BankDAO();
+
 		UserInfo u = new UserInfo();
 		double s;
-//		
-//		
-//		
+	
 		s = u.getBalance();
 			
 		
@@ -168,13 +147,13 @@ public class Withdraw extends BalanceReturn {
 		
 		System.out.println("Would you like to exit or go back to the main menu? Press 'e' to exit or 'm' for menu.");
 		System.out.println("");
-//		
-	String exitOrMenu = sc.next();
+		
+		String exitOrMenu = sc.next();
 		
 		switch(exitOrMenu.toLowerCase()) {
 		case "e":
 			System.out.println("Thank you for using this ATM! Click out of window to close.");
-			//try to find way to close window upon exit
+			
 			System.exit(0);
 			break;
 		case "m":
@@ -185,14 +164,7 @@ public class Withdraw extends BalanceReturn {
 			System.out.println("Invalid input. Returning to menu. Thank you for your patronage!");
 			mainMenu();
 		}
-//		
-//		}catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			Close.close(resultSet);
-//			Close.close(stmt);
-//		}
-//		return u;
+
 		
 	}
 

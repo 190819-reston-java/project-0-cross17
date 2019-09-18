@@ -73,10 +73,16 @@ public class LoginScreen extends BalanceReturn {
 //						System.out.println(s);
 						
 						
+					}else {
+						System.out.println("Unrecognized username/password combination. Returning to login screen.");
+						login();
 					}
 					
 				}
-			} 
+			}else {
+				System.out.println("Unrecognized username. Returning to login screen.");
+				login();
+			}
 			
 		}
 //		System.out.println(s);

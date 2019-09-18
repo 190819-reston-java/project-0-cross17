@@ -42,7 +42,7 @@ public class BalanceReturn {
 		System.out.println("");
 		System.out.println("Welcome to the virtual ATM!");
 		System.out.println("");
-		System.out.println("Would you like to make a deposit or a withdrawl? Press '1' for withdrawal, '2' for deposit, or '3' to view balance; then please press 'Enter'.");
+		System.out.println("Would you like to make a deposit or a withdrawal? Press '1' for withdrawal, '2' for deposit, or '3' to view balance; then please press 'Enter'.");
 		System.out.println("Press 'e' to logout & exit application.");
 		
 		String depositWithdrawal = sc.next();

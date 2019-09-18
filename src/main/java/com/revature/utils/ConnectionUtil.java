@@ -24,7 +24,7 @@ private static Connection conn = null;
 			
 			//how to actually make connections is jdbc
 			conn = DriverManager.getConnection(url, username, password);
-			System.out.println("--Verified--");
+			System.out.println("--Checked--");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
