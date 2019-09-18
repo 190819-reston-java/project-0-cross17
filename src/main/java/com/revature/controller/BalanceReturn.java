@@ -42,22 +42,22 @@ public class BalanceReturn {
 		System.out.println("");
 		System.out.println("Welcome to the virtual ATM!");
 		System.out.println("");
-		System.out.println("Would you like to make a deposit or a withdrawl? Press '1' for withdrawl, '2' for deposit, or '3' to view balance; then please press 'Enter'.");
+		System.out.println("Would you like to make a deposit or a withdrawl? Press '1' for withdrawal, '2' for deposit, or '3' to view balance; then please press 'Enter'.");
 		System.out.println("Press 'e' to logout & exit application.");
 		
 		String depositWithdrawal = sc.next();
 		
 		switch(depositWithdrawal.toLowerCase()) {
 		case "1":
-			//System.out.println("This is a withdrawl");
+			
 			Withdraw.withdrawal();
 			break;
 		case "2":
-			//System.out.println("This is a deposit");
+			
 			Withdraw.deposit();
 			break;
 		case "3":
-			//System.out.println("this is to check balance.");
+			
 			Withdraw.balance();
 			break;
 		case "e":

@@ -5,7 +5,6 @@ import java.util.Scanner;
 import org.apache.log4j.Logger;
 
 import com.revature.model.UserInfo;
-import com.revature.model.Username;
 import com.revature.repository.BankDAO;
 import com.revature.repository.BankDbDAO;
 

@@ -20,9 +20,7 @@ public class LoginScreen extends BalanceReturn {
 		System.out.println("");
 		System.out.println("Welcome to this ATM!");
 		System.out.println("");
-		System.out.println("If you have an account with us press '1' to proceed to login screen. If not, please press '2' to create an account.");
-		System.out.println("Press 'e' to exit ATM");
-//		l.warn("Inputting a non-numeric character will result in an invalid input.");
+		System.out.println("Please press '1' to proceed to login screen. Press 'e' to exit ATM.");
 
 		String loginDecision = sc.next();
 		
@@ -32,9 +30,9 @@ public class LoginScreen extends BalanceReturn {
 		case "1":
 			login();
 			break;
-		case "2":
-			NewUser.newUser();
-			break;
+//		case "2":
+//			NewUser.newUser();
+//			break;
 		case "e":
 			System.exit(0);
 			break;

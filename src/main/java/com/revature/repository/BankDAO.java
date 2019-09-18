@@ -129,8 +129,6 @@ public class BankDAO implements BankDbDAO {
 	}
 
 	@Override
-	
-	
 	public boolean addUser(UserInfo u) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -191,7 +189,6 @@ public class BankDAO implements BankDbDAO {
 		PreparedStatement stmt = null;
 		
 		final String query = "UPDATE bankdatabase SET user_name = ?, password = ?, balance = ? WHERE id = ?;";
-//		final String query = "UPDATE bankdatabase SET balance = ?;";
 		
 		try {
 			conn = ConnectionUtil.getConnection();

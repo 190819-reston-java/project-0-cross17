@@ -56,7 +56,7 @@ public class Withdraw extends BalanceReturn {
 		switch (correctAmount.toLowerCase()) {
 		case "y":
 			if(withdrawalAmount > s) {
-				System.out.println("Unfortunately this would leave a negative balance. This action is not possible. Returning to main menu.");
+				System.out.println("Unfortunately this would leave a negative balance. This action is not possible.");
 				System.out.println("");
 				
 				throw new InsufficientFundsException();
@@ -71,24 +71,10 @@ public class Withdraw extends BalanceReturn {
 				System.out.println("Your new balance is " + mFormat.format(balance));
 				u.setBalance(balance);
 				
-//				u.getBalance();
-//				b.updateBalance(u);
-//				System.out.println(u);
-				
 				for(UserInfo i : b.getUsersInfo()) {
-//					if (i.getUsername().equals(username)) {
-////						u.setUsername(username);
-//						i.setBalance(balance);
-//						b.updateBalance(i);
-//						
-//						System.out.println(u);
-//					}
-//					System.out.println(i);
 					i.setBalance(balance);
-//					i.getBalance();
 					b.updateBalance(i);
 				}
-//				System.out.println(u);
 
 			mainMenu();
 			}
